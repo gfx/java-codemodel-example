@@ -1,0 +1,23 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.sun.codemodel:codemodel:2.6'
+    }
+}
+
+import com.sun.codemodel.*
+
+def cm = new JCodeModel()
+
+def klass = cm._class("com.example.cm.Foo")
+
+klass.field(JMod.PUBLIC, int.class, "intVal")
+klass.field(JMod.PUBLIC, cm.ref(Map.class).narrow(String.class, String.class), "mapVal")
+klass.field(JMod.PUBLIC, cm.ref(List.class).narrow(String.class), "arrayVal")
+
+file("java").mkdir()
+cm.build(file("java"))
+
